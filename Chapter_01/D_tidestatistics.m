@@ -35,12 +35,12 @@ Hm_tot   = zeros(Npos,Ndata);  % Mean wave height, H_m (m)
 %     Computation of wave statistics
 % --------------------------------------
 for j=1:Ndata % Loop on the type of tide
-for i=1:Npos  % Loop on the pressure sensor positions
-   dummylist = zero_crossing(data(:,i+Npos*(j-1)),fs);
-   Hm_tot(i,j) = mean(dummylist(:,1));
-   H13_tot(i,j) = Significantheight(dummylist(:,1));
-   Hrms_tot(i,j) = rootmeansquaredheight(dummylist(:,1));
-end
+   for i=1:Npos  % Loop on the pressure sensor positions
+      dummylist = zero_crossing(data(:,i+Npos*(j-1)),fs);
+      Hm_tot(i,j) = mean(dummylist(:,1));
+      H13_tot(i,j) = significant_height(dummylist(:,1));
+      Hrms_tot(i,j) = rms_height(dummylist(:,1));
+   end
 end
 
 % --------------------------------------
