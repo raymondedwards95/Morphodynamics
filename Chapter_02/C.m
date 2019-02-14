@@ -1,3 +1,8 @@
+% Spectral analysis: Computation of spectral wave characteristics
+% Chapter 2.2
+% Script 1
+%
+% Comparing block sizes using one location during low tide
 clear all
 close all
 
@@ -57,14 +62,23 @@ Hm0_ss = Hm0_all(:,:,3);
 Hm0_inf = Hm0_all(:,:,2);
 
 %%% FIGURE 1
+Hm0f = reshape(Hm0, n_t*n_p, 1);
+H13f = reshape(H13, n_t*n_p, 1);
+coeff = polyfit(Hm0f, H13f, 1);
 figure;
-scatter(reshape(Hm0, n_t*n_p, 1), reshape(H13, n_t*n_p, 1))
+hold on
+scatter(Hm0f, H13f)
+plot(Hm0f, polyval(coeff, Hm0f))
+hold off
+xlabel('H_{m0}')
+ylabel('H_{1/3}')
+legend('data', ['fit: slope = ', num2str(coeff(1))], 'Location', 'NorthWest')
 saveas(gcf, 'figures/2_2_spectral_compare.png')
 
 %%% FIGURE 2
 tide = 1;
 ylims = [2, 0.5, 2];
-x_left = 4400;
+x_left = 4350;
 x_right = max(x_p)+10;
 
 figure;
@@ -80,7 +94,7 @@ for k = 1:n_f
     ylim([0, ylims(k)])
     set(gca, 'xticklabel', [])
     ylabel([flabels(k), ' [m]'])
-    legend([flabels(k)])
+    legend([flabels(k)], 'Location', 'NorthWest')
 end
 
 subplot(n_f+1, 1, n_f+1)
@@ -95,4 +109,5 @@ xlabel('Distance from bouy [m]')
 ylabel('Height [m]')
 saveas(gcf, 'figures/2_2_spectral_low.png')
 
-save('data_spectral', 'Hm0', 'Hm0_ss', 'Hm0_inf')
+save('data_spectral', 'Hm0', 'Hm0_ss', 'Hm0_inf', 'Tp', 'H13')
+clear k ylims x_left x_right

@@ -1,13 +1,23 @@
+% Spectral analysis: Computation of density spectrum, part 1
+% Chapter 2.1
+% Script 1
+%
+% Comparing block sizes using one location during low tide
 clear all
 close all
 
-f_s = 2;
 
-lowtide = load('lowTide.txt');
+%%% SETTINGS
+f_s = 2; % sampling frequency
+blocks = [1, 3, 7, 15, 31]; % specify total number of blocks, including overlapping blocks
 
-[n_s, m_s] = size(lowtide);
 
-blocks = [1, 3, 7, 15, 31];
+%%% READ DATA
+lowtide = load('lowTide.txt'); % data
+
+
+%%% PREPARE CALCULATIONS
+[n_s, n_p] = size(lowtide); % number of samples and number of stations
 n_b = length(blocks);
 nfft = round(n_s ./ ((blocks + 1) / 2));
 
@@ -16,22 +26,27 @@ f = zeros(n_s, n_b);
 edf = zeros(1, n_b);
 conf95Interval = zeros(2, n_b);
 
-for i=1:1:n_b
-    [S(1:nfft(i)/2+1,i), f(1:nfft(i)/2+1,i), edf(i), conf95Interval(:,i)] = VarianceDensitySpectrum(lowtide(:,1),nfft(i),f_s);
+
+%%% CALCULATIONS
+for i=1:1:n_b % loop over all block sizes
+    % NOTE: complex indices for S and f due to fact that not all results are of the same length
+    [S(1:nfft(i)/2+1,i), f(1:nfft(i)/2+1,i), edf(i), conf95Interval(:,i)] = VarianceDensitySpectrum(lowtide(:,1), nfft(i), f_s);
 end
 
+
+%%% FIGURE
 figure;
 sgtitle('Variance density spectrum for P1')
-for i=1:1:n_b
-    subplot(n_b,1,i)
+for i=1:1:n_b % loop over all block lengths
+    subplot(n_b, 1, i)
     hold on
-    plot(f(:,i), S(:,i))
-    plot(f(:,i), S(:,i) * conf95Interval(1,i), '-r', 'LineWidth', 0.1)
+    plot(f(:,i), S(:,i)) % plot center
+    plot(f(:,i), S(:,i) * conf95Interval(1,i), '-r', 'LineWidth', 0.1) % plot confidence interval
     plot(f(:,i), S(:,i) * conf95Interval(2,i), '-r', 'LineWidth', 0.1)
     hold off
-    if i == n_b
+    if i == n_b % check if subplot is last subplot
         xlabel('Frequency [Hz]')
-    else
+    else % subplot is not last subplot
         set(gca, 'xticklabel', [])
     end
     xlim([0, 0.7])
