@@ -17,21 +17,23 @@ lowtide = load('lowTide.txt'); % data
 
 
 %%% PREPARE CALCULATIONS
-[n_s, n_p] = size(lowtide); % number of samples and number of stations
+[n_s, n_p] = size(lowtide); % number of samples and number of sensor positions
 n_b = length(blocks);
-nfft = round(n_s ./ ((blocks + 1) / 2));
+nfft = round(n_s ./ ((blocks + 1) / 2)); % length of each block
 
-S = zeros(n_s, n_b);
-f = zeros(n_s, n_b);
+S = zeros(n_s, n_b); % save S for plots, for each block size, there is a list (1-dim array)
+f = zeros(n_s, n_b); % save f for plots
 edf = zeros(1, n_b);
-conf95Interval = zeros(2, n_b);
+conf95Interval = zeros(2, n_b); % save for plots, 2 numbers for each block size
 
 
 %%% CALCULATIONS
 for i=1:1:n_b % loop over all block sizes
     % NOTE: complex indices for S and f due to fact that not all results are of the same length
+    % Length of S_i is always (nfft/2 + 1)
     [S(1:nfft(i)/2+1,i), f(1:nfft(i)/2+1,i), edf(i), conf95Interval(:,i)] = VarianceDensitySpectrum(lowtide(:,1), nfft(i), f_s);
 end
+clear i
 
 
 %%% FIGURE
@@ -53,4 +55,5 @@ for i=1:1:n_b % loop over all block lengths
     ylabel('S [m^2 Hz^{-1}]')
     legend([num2str(blocks(i)), ' blocks'])
 end
+clear i
 saveas(gcf, 'figures/2_1_p1.png')
