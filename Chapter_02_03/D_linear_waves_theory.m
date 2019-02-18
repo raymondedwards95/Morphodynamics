@@ -56,8 +56,8 @@ hold on
 for i = 1:n_t % loop over all periods
     plot(h, hL(:,i)) % plot ratio h/L
 end
-plot(h, 0.05*ones(n_h, 1), 'k', 'LineWidth', 1) % plot horizontal lines for shallow water
-plot(h, 0.5*ones(n_h, 1), 'k', 'LineWidth', 1) % plot horizontal lines for deep water
+plot(h, 0.05*ones(n_h, 1), '--k', 'LineWidth', 1) % plot horizontal lines for shallow water
+plot(h, 0.5*ones(n_h, 1), '--k', 'LineWidth', 1) % plot horizontal lines for deep water
 hold off
 legend('T = 6 s', 'T = 9 s', 'T = 12 s', 'Location', 'SouthEast')
 xlabel('h [m]')

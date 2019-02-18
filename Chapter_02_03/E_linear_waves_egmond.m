@@ -35,7 +35,7 @@ hL = h ./ L; % calculate the ratio h/L (elementwise)
 
 %% FIGURE
 x_left = 4450; % minimum value for x in plots
-x_right = max(x_p)+10; % maximum value
+x_right = 4950; % max(x_p)+100; % maximum value
 
 figure;
 pbaspect([2 1 1]) % set aspect ratio (?)
@@ -47,23 +47,26 @@ for i = 1:n_t % loop over all tides
 end
 hold off
 xlim([x_left, x_right])
+ylim([20, 45])
 set(gca, 'xticklabel', []) % remove xticklabels
 title('Wavelength')
 ylabel('L [m]')
+legend('low', 'mid', 'high')
 
 subplot(3,1,2);
 hold on
 for i = 1:n_t % loop over all tides
     scatter(x_p, hL(:,i), '+') % plot h/L (points)
 end
-plot([x_left, x_right], 0.05*ones(2, 1), 'k') % plot horizontal line for shallow water
-plot([x_left, x_right], 0.5*ones(2, 1), 'k') % plot horizontal line for deep water
+plot([x_left, x_right], 0.05*ones(2, 1), '--k') % plot horizontal line for shallow water
+plot([x_left, x_right], 0.5*ones(2, 1), '--k') % plot horizontal line for deep water
 hold off
 xlim([x_left, x_right])
 ylim([0, 0.2])
 title('Ratio h/L')
 ylabel('h/L')
 set(gca, 'xticklabel', []) % remove xticklabels
+legend('low', 'mid', 'high')
 
 subplot(3,1,3)
 hold on
