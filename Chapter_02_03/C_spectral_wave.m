@@ -105,7 +105,7 @@ for k = 1:n_f
     subplot(n_f+1, 1, k);
     hold on
     scatter(x_p, Hm0_all(:,tide,k), '+') % plot data as points
-    plot(x_p, Hm0_all(:,tide,k), '--') % connect points with straight lines
+    % plot(x_p, Hm0_all(:,tide,k), '--') % connect points with straight lines
     hold off
     xlim([x_left, x_right])
     ylim([0, ylims(k)])
@@ -123,8 +123,11 @@ xlim([x_left, x_right])
 ylim([-7, 0])
 title('Bed profile')
 xlabel('Distance from bouy [m]')
-ylabel('Height [m]')
+ylabel('Elevation [m]')
 saveas(gcf, 'figures/2_2_spectral_low.png')
 
 save('data_spectral', 'Hm0', 'Hm0_ss', 'Hm0_inf', 'Tp', 'H13')
 clear k ylims x_left x_right % remove not-important variables
+
+
+%%% FIGURE 3
