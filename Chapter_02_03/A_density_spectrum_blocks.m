@@ -7,16 +7,16 @@ clear all
 close all
 
 
-%%% SETTINGS
+%% SETTINGS
 f_s = 2; % sampling frequency
 blocks = [1, 3, 7, 15, 31]; % specify total number of blocks, including overlapping blocks
 
 
-%%% READ DATA
+%% READ DATA
 lowtide = load('lowTide.txt'); % data
 
 
-%%% PREPARE CALCULATIONS
+%% PREPARE CALCULATIONS
 [n_s, n_p] = size(lowtide); % number of samples and number of sensor positions
 n_b = length(blocks);
 nfft = round(n_s ./ ((blocks + 1) / 2)); % length of each block
@@ -27,7 +27,7 @@ edf = zeros(1, n_b);
 conf95Interval = zeros(2, n_b); % save for plots, 2 numbers for each block size
 
 
-%%% CALCULATIONS
+%% CALCULATIONS
 for i=1:1:n_b % loop over all block sizes
     % NOTE: complex indices for S and f due to fact that not all results are of the same length
     % Length of S_i is always (nfft/2 + 1)
@@ -36,7 +36,7 @@ end
 clear i
 
 
-%%% FIGURE
+%% FIGURE
 figure;
 sgtitle('Variance density spectrum for P1')
 for i=1:1:n_b % loop over all block lengths

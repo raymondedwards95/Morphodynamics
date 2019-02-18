@@ -8,17 +8,17 @@ clear all
 close all
 
 
-%%% SETTINGS
+%% SETTINGS
 f_s = 2; % sampling frequency
 blocks = [15]; % number of blocks
 
 
-%%% READ DATA
+%% READ DATA
 lowtide = load('lowTide.txt');
 names = {'P1'; 'P3'; 'P4'; 'P5'; 'P6'}; % names of the positions
 
 
-%%% PREPARE CALCULATIONS
+%% PREPARE CALCULATIONS
 [n_s, n_p] = size(lowtide); % number of samples and number of sensor positions
 n_b = length(blocks);
 nfft = round(n_s ./ ((blocks + 1) / 2)); % length of each block
@@ -29,7 +29,7 @@ edf = zeros(1, n_b, n_p);
 conf95Interval = zeros(2, n_b, n_p); % two numbers for each block size and for each position
 
 
-%%% CALCULATIONS
+%% CALCULATIONS
 for j=1:1:n_p % loop over all positions
     for i=1:1:n_b % loop over all block sizes
         % NOTE: complex indices for S and f due to fact that not all results are of the same length
@@ -40,7 +40,7 @@ end
 clear i j
 
 
-%%% FIGURE
+%% FIGURE
 for i=1:1:n_b % loop over all blocks
     figure;
     sgtitle(['Variance density spectrum with ', num2str(blocks(i)), ' blocks']) % sgtitle --> title for figure, rather than for subplot

@@ -5,7 +5,7 @@ function [cg] = group_velocity(T, h)
 %        h water depth (m)
 % output cg group velocity (m/s)
 
-k = wave_number(T, h);
-c = phase_velocity(T, h);
-n = propagation_factor(k, h);
+c = phase_velocity(T, h); % phase velocity
+k = wave_number(T, h); % wave number, for n
+n = propagation_factor(k, h); % propagation factor
 cg = n * c;

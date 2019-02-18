@@ -1,6 +1,6 @@
 function [n] = propagation_factor(k, h)
 % [n] = propagation_factor(k, h)
-% Calculates the ratio n between the phase and the group velocity
+% Calculates the ratio n between the phase velocity and the group velocity
 % input  k wave number (m-1)
 %        h water depth (m)
 % output n propagation factor ()

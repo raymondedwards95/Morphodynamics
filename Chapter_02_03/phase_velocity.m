@@ -5,6 +5,6 @@ function [c] = phase_velocity(T, h)
 %        h water depth (m)
 % output c phase velocity (m/s)
 
-omega = 2 * pi / T;
-k = wave_number(T, h);
-c = omega / k;
+omega = 2 * pi / T; % wave frequency
+k = wave_number(T, h); % wave number
+c = omega / k; % phase velocity
