@@ -46,6 +46,7 @@ for i = 1:n_t % loop over all periods
     plot(h, L(:,i)) % plot wavelength
 end
 hold off
+title('Wavelength')
 legend('T = 6 s', 'T = 9 s', 'T = 12 s', 'Location', 'SouthEast')
 xlabel('h [m]')
 ylabel('L [m]')
@@ -58,6 +59,7 @@ end
 plot(h, 0.05*ones(n_h, 1), '--k', 'LineWidth', 1) % plot horizontal lines for shallow water
 plot(h, 0.5*ones(n_h, 1), '--k', 'LineWidth', 1) % plot horizontal lines for deep water
 hold off
+title('Ratio h/L')
 legend('T = 6 s', 'T = 9 s', 'T = 12 s', 'Location', 'SouthEast')
 xlabel('h [m]')
 ylabel('h/L')
@@ -76,6 +78,7 @@ for i = 1:n_t % loop over all periods
 end
 plot(h, sqrt(g*h)) % plot sqrt(g*h) (c in shallow water limit)
 hold off
+title('Phase celerity')
 legend('T = 6 s', 'T = 9 s', 'T = 12 s', 'Location', 'SouthEast')
 xlabel('h [m]')
 ylabel('c [m/s]')
@@ -88,6 +91,7 @@ for i = 1:n_t % loop over all periods
 end
 plot(h, sqrt(g*h)) % plot sqrt(g*h) (cg in shallow water limit)
 hold off
+title('Group celerity')
 legend('T = 6 s', 'T = 9 s', 'T = 12 s')
 xlabel('h [m]')
 ylabel('c_g [m/s]')
