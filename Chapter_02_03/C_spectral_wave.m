@@ -88,7 +88,7 @@ hold off
 grid on
 xlabel('H_{m0}')
 ylabel('H_{1/3}')
-legend('data', ['fit: slope = ', num2str(coeff(1))], 'Location', 'NorthWest')
+legend('data', ['fit:  y = ', num2str(coeff(1)) ' x + ', num2str(coeff(2))], 'Location', 'NorthWest')
 title('H_{1/3} and H_{m0}')
 saveas(gcf, 'figures/2_2_spectral_compare.png')
 
@@ -103,6 +103,7 @@ x_right = max(x_p)+10; % maximum value
 figure;
 sgtitle('Spectral wave heights') % title of figure
 
+% plot wave heighs
 for k = 1:n_f
     subplot(n_f+1, 1, k);
     hold on
@@ -117,6 +118,7 @@ for k = 1:n_f
     % legend([hlabels(k)], 'Location', 'NorthWest')
 end
 
+% plot bed
 subplot(n_f+1, 1, n_f+1)
 hold on
 plot(x_b, y_b) % bed profile
@@ -126,11 +128,8 @@ xlim([x_left, x_right])
 ylim([-7, 0])
 title('Bed profile')
 xlabel('Distance from bouy [m]')
-ylabel('Elevation [m]')
+ylabel('z [m]')
 saveas(gcf, 'figures/2_2_spectral_low.png')
 
 save('data_spectral', 'Hm0', 'Hm0_ss', 'Hm0_inf', 'Tp', 'H13')
 clear k ylims x_left x_right % remove not-important variables
-
-
-%% FIGURE 3

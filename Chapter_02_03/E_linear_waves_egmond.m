@@ -77,6 +77,8 @@ xlim([x_left, x_right])
 ylim([-7, 0])
 title('Bed profile')
 xlabel('Distance from bouy [m]')
-ylabel('H [m]')
+ylabel('z [m]')
 
 saveas(gcf, 'figures/3_2_wavelengths.png')
+
+clear i j x_b x_left x_p x_right y_b

@@ -10,7 +10,7 @@ close all
 
 %% SETTINGS
 f_s = 2; % sampling frequency
-blocks = [15]; % number of blocks
+blocks = [7, 15]; % number of blocks
 
 
 %% READ DATA

@@ -35,7 +35,6 @@ for i = 1:n_t % loop over all periods
         cg(j,i) = group_velocity(T(i), h(j)); % calculate group velocity
     end
 end
-clear i j
 
 
 %% FIGURE 1
@@ -95,3 +94,5 @@ ylabel('c_g [m/s]')
 ylim([0, 20])
 
 saveas(gcf, 'figures/3_1_velocity.png')
+
+clear i j
