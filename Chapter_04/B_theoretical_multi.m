@@ -8,13 +8,17 @@ close all
 
 %% SETTINGS and PARAMETERS
 % offshore wave conditions
-T0 = 10;            % number: Characteristic period (s)
-Hrms0 = [0.5, 1, 2, 3];        % list: Root mean square wave height (m)
-theta0 = [0];       % list: Angle of incidence (degrees)
-Zeta = [0];  % list: Mean water level (m)
+% T0: number: Characteristic period (s)
+T0 = 10; % default: 10;
+% Hrms0: list: Root mean square wave height (m)
+Hrms0 = [1]; % default: [1];   alternative: [0.5, 1, 2];
+% theta0: list: Angle of incidence (degrees)
+theta0 = [0]; % default: [0];   alternative: [0, 22.5, 45];
+% Zeta: list: Mean water level (m)
+Zeta = [-1, 0, 1]; % default: [0];   alternative: [-1, 0, 1];
 
 % Model parameter 
-hmin = 0.2;         % Minimal water depth for computation (we stop the computation when h<hmin)
+hmin = 0.2;             % Minimal water depth for computation (we stop the computation when h<hmin)
 
 % Definition of cross-shore coordinates (m)
 x = (1:1:500)';  
@@ -32,7 +36,7 @@ n_Hrms = length(Hrms0);
 n_theta = length(theta0);
 n_Zeta = length(Zeta);
 
-labels = strings(n_Hrms, n_theta, n_Zeta); % labels for legends in figures
+labels = strings(n_Hrms, n_theta, n_Zeta); % pre-allocate labels for legends in figures
 
 
 %% COMPUTATIONS
@@ -98,7 +102,7 @@ hold off
 ylabel('D_{br} [W/m^2]')
 xlim(x_lims)
 % ylim([0, 550])
-title('Dissipation - breaking')
+title('Dissipation: breaking')
 set(gca, 'xticklabel', [])
 
 subplot(5,1,4)
@@ -114,7 +118,7 @@ hold off
 ylabel('D_{r} [W/m^2]')
 xlim(x_lims)
 % ylim([0, 550])
-title('Dissipation - rolling')
+title('Dissipation: roller')
 set(gca, 'xticklabel', [])
 legend(labels, 'Location', 'West')
 
