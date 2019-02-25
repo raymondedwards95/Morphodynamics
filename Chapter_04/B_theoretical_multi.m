@@ -11,11 +11,11 @@ close all
 % T0: number: Characteristic period (s)
 T0 = 10; % default: 10;
 % Hrms0: list: Root mean square wave height (m)
-Hrms0 = [1]; % default: [1];   alternative: [0.5, 1, 2];
+Hrms0 = [0.5, 1, 2]; % default: [1];   alternative: [0.5, 1, 2];
 % theta0: list: Angle of incidence (degrees)
 theta0 = [0]; % default: [0];   alternative: [0, 22.5, 45];
 % Zeta: list: Mean water level (m)
-Zeta = [-1, 0, 1]; % default: [0];   alternative: [-1, 0, 1];
+Zeta = [0]; % default: [0];   alternative: [-1, 0, 1];
 
 % Model parameter 
 hmin = 0.2;             % Minimal water depth for computation (we stop the computation when h<hmin)
@@ -58,17 +58,20 @@ x_lims = [0, 450];
 figure
 subplot(5,1,1)
 hold on
+y_lim2 = 0;
 for h = 1:n_Hrms
     for t = 1:n_theta
         for z = 1:n_Zeta
             plot(data(h,t,z).x, data(h,t,z).Hrms)
+            y_lim2 = max([y_lim2, max(data(h,t,z).Hrms)]); % find max, for plot limits
         end
     end
 end
 hold off
+box on
 ylabel('Hrms [m]')
 xlim(x_lims)
-% ylim([0, 2.5])
+ylim([0, 1.1*y_lim2])
 title('Root mean square wave height')
 set(gca, 'xticklabel', [])
 
@@ -83,41 +86,48 @@ for h = 1:n_Hrms
 end
 plot(data(1).x, zeros(length(data(1).x)), '--k')
 hold off
+box on
 ylabel('SSE [m]')
 xlim(x_lims)
-% ylim([-0.2, 0.2])
+ylim([-0.05, 0.05])
 title('Sea surface elevation')
 set(gca, 'xticklabel', [])
 
 subplot(5,1,3)
 hold on
+y_lim2 = 0;
 for h = 1:n_Hrms
     for t = 1:n_theta
         for z = 1:n_Zeta
             plot(data(h,t,z).x, data(h,t,z).Dbr)
+            y_lim2 = max([y_lim2, max(data(h,t,z).Dbr)]); % find max, for plot limits
         end
     end
 end
 hold off
+box on
 ylabel('D_{br} [W/m^2]')
 xlim(x_lims)
-% ylim([0, 550])
+ylim([0, 1.1*y_lim2])
 title('Dissipation: breaking')
 set(gca, 'xticklabel', [])
 
 subplot(5,1,4)
 hold on
+y_lim2 = 0;
 for h = 1:n_Hrms
     for t = 1:n_theta
         for z = 1:n_Zeta
             plot(data(h,t,z).x, data(h,t,z).Dr)
+            y_lim2 = max([y_lim2, max(data(h,t,z).Dr)]); % find max, for plot limits
         end
     end
 end
 hold off
+box on
 ylabel('D_{r} [W/m^2]')
 xlim(x_lims)
-% ylim([0, 550])
+ylim([0, 1.1*y_lim2])
 title('Dissipation: roller')
 set(gca, 'xticklabel', [])
 legend(labels, 'Location', 'West')
@@ -127,6 +137,7 @@ hold on
 plot(x, zb, 'k')
 plot(x, Zeta.*ones(size(x)), '-.')
 hold off
+box on
 xlabel('x [m]')
 ylabel('zb [m]')
 xlim(x_lims)
