@@ -20,12 +20,12 @@ theta = [-36, 39, 36]; % incident angle (deg)
 hmin = 0.2; % Minimal water depth for computation (we stop the computation when h<hmin)
 
 % locations of sensors
-xp = [4478, 4765, 4790, 4814, 4835];
+xp = [4478, 4765, 4790, 4814, 4835]; % distance from off-shore buoy
 
 % visualisations
-tide_names = {'Low tide', 'Mid tide', 'High tide'};
-xlims = [4400, 5000];
-ylims = [0, 1.6];
+tide_names = {'Low tide', 'Mid tide', 'High tide'}; % used for example in titles
+xlims = [4400, 5000]; % left, right
+ylims = [0, 1.6]; % bottom, top
 
 
 %% LOAD DATA
@@ -44,43 +44,47 @@ Hrms = H13 / sqrt(2); % H_{1/3} ~ sqrt{2} H_{rms}
 T0 = T13; % T ~ T_{1/3}
 
 % visualisations
-if xlims(2) > max(xb)
-    xlims = max(xb);
+if xlims(2) > max(xb) % set xlim, depending on given value and bed profile
+    xlims(2) = max(xb);
 end
 
 % pre-allocation
-Hrms_model = zeros(5,3);
-rms_err = zeros(1,3);
+Hrms_model = zeros(5,3); % save model data for Hrms
+rms_err = zeros(1,3); % save rms_err for all tides
 
 
 %% CALCULATIONS
-for i = n_t:-1:1
-    data(i) = BJmodel(Hrms(i), T0(i), Zeta(i), theta(i), bedprofile, hmin);
+for i = n_t:-1:1 % loop over tides, backwards for pre-allocation purposes
+    data(i) = BJmodel(Hrms(i), T0(i), Zeta(i), theta(i), bedprofile, hmin); % calculate wave evolution
 
-    Hrms_model(:,i) = interp1(data(i).x, data(i).Hrms, xp);
+    Hrms_model(:,i) = interp1(data(i).x, data(i).Hrms, xp); % extract Hrms per tide and position
 
-    rms_err(i) = rms_error(Hrms_obs(:,i), Hrms_model(:,i));
+    rms_err(i) = rms_error(Hrms_obs(:,i), Hrms_model(:,i)); % partial rms error
 end
+clear i
 
-rms_err_tot = rms_error(Hrms_obs(:), Hrms_model(:));
+rms_err_tot = rms_error(Hrms_obs(:), Hrms_model(:)); % total rms error
 
 
 %% VISUALISATIONS
 figure
-for i = 1:n_t
+% make subplot for each tide
+for i = 1:n_t % loop over all tides
     subplot(4,1,i)
     hold on
     plot(data(i).x, data(i).Hrms) % model data
     scatter(xp, Hrms_obs(:,i), '+r') % observations
     hold off
-    title(tide_names(i))
+    box on % put box around graph
+    title(tide_names(i)) % title comes from a list
     xlim(xlims)
     ylim(ylims)
     ylabel('H_{rms} [m]')
-    set(gca, 'xticklabel', []) % remove ticks
+    set(gca, 'xticklabel', []) % remove xticklabels
 end
+clear i
 
-
+% subplot for bed profile
 subplot(4,1,4)
 hold on
 for i = 1:n_t
@@ -89,9 +93,15 @@ end
 plot(xb, zb, 'k') % bed profile
 scatter(xp, interp1(xb, zb, xp), 'r') % dots, using interp to get y-value for x of all positions
 hold off
+box on
 title('Bed profile')
 legend(tide_names, 'Location', 'SouthEast')
 xlim(xlims)
 ylim([-7, 2])
 xlabel('Cross-shore distance [m]')
 ylabel('z [m]')
+
+set(gcf,'position',[1, 1, 800, 1600]) % x0, y0, width, height (pixels)
+
+saveas(gcf, 'figures/4_3_model_data.png')
+clear i xlims ylims

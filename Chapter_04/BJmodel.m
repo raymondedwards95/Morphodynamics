@@ -92,12 +92,12 @@ Hrms(1)  = Hrms0;                     % Root mean square height
 eta(1)   = 0;                         % Set up
 ht(1)    = -z(1) + eta(1) + Zeta;     % Total water depth (includes set-up)
 % ----------------- TO BE FILLED IN ---------------
-E(1)     = 1/8 * rho * g * power(Hrms(1), 2);   % Wave energy
+E(1)     = 1/8 * rho * g * power(Hrms(1), 2); % Wave energy
 k(1)     = wave_number(T0, ht(1));    % Wave number
 c(1)     = phase_velocity(T0, ht(1)); % Phase celerity
 n(1)     = propagation_factor(k(1), ht(1)); % ratio group velocity/phase celerity (used in the computation of GROUPVELOCITY and RADIATIONSTRESS)
-cg(1)    = group_velocity(T0, ht(1));                       % Group celerity
-theta(1) = deg2rad(theta0);                    % Wave direction in RAD
+cg(1)    = group_velocity(T0, ht(1)); % Group celerity
+theta(1) = deg2rad(theta0);           % Wave direction in RAD
 % ------------------------------------------------
 Er(1)    = 0;                         % Roller energy. Needed for computation of Sxx(1), and therefore initialized at 0.
 Sxx(1)   = radiationStressXX(n(1),theta(1),E(1),Er(1)); % Radiation stress
