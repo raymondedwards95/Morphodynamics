@@ -34,7 +34,7 @@ H13 = repmat(H13, 1, n_t);
 % replace elements for different situations
 w_cross(2:3) = [0,0]; % situations 2,3 without wind
 w_long(2:3) = [0,0]; % situations 2,3 without wind
-dzeta_dy(3) = [0]; % situations 3 without tides
+dzeta_dy(3) = [0]; % situation 3 without tides
 theta(4) = [0]; % situation 4 with theta is zero
 
 % sensors
@@ -84,11 +84,11 @@ end
 
 
 %% VISUALIZATIONS
-figure('DefaultAxesPosition', [0.05, 0.05, 0.9, 0.9])
+figure
 sgtitle('Low tide')
 
 % current
-subplot(3,1,[1,2])
+subplot(2,1,1)
 box on
 grid on
 hold on
@@ -106,7 +106,7 @@ set(gca, 'xticklabel', []) % remove xticklabels
 
 
 % bed profile
-subplot(3,1,3)
+subplot(2,1,2)
 box on
 grid on
 hold on
