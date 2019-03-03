@@ -81,7 +81,7 @@ for i = 1:n_t
     figure
     sgtitle(tides(i))
 
-    
+
     % Hrms
     subplot(3,1,1)
     box on
@@ -131,15 +131,13 @@ for i = 1:n_t
     ylim([-8, 2])
     xlabel('x [m]')
     ylabel('z [m]')
-
-
 end
 
 
 %% SAVE DATA
 save('data/52_ParametersEgmond', 'Zeta', 'H13', 'T13', 'theta', 'w_long', 'w_cross', 'dzeta_dy');
-save('data/52_BJoutputAllTides', 'wavedata');
-save('data/52_LongCurrentAllTides', 'v_model', 'xb', 'zb')
+% save('data/52_BJoutputAllTides', 'wavedata');
+% save('data/52_LongCurrentAllTides', 'v_model', 'xb', 'zb')
 
 
 clear sz lw

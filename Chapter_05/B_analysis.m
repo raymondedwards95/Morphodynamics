@@ -124,8 +124,8 @@ ylabel('z [m]')
 
 
 %% SAVE DATA
-save('data/53_BJoutputLowTideMod', 'wavedata');
-save('data/53_LongCurrentLowTideMod', 'v_model', 'xb', 'zb')
+% save('data/53_BJoutputLowTideMod', 'wavedata');
+% save('data/53_LongCurrentLowTideMod', 'v_model', 'xb', 'zb')
 
 
 clear sz lw
