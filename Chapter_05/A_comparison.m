@@ -131,6 +131,9 @@ for i = 1:n_t
     ylim([-8, 2])
     xlabel('x [m]')
     ylabel('z [m]')
+
+    % save figure
+    print(['figures/5_2_tide_', num2str(i)], '-dpng')
 end
 
 

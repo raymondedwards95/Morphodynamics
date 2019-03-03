@@ -122,6 +122,9 @@ ylim([-8, 2])
 xlabel('x [m]')
 ylabel('z [m]')
 
+% save figure
+print('figures/5_3_compare', '-dpng')
+
 
 %% SAVE DATA
 % save('data/53_BJoutputLowTideMod', 'wavedata');
