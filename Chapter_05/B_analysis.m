@@ -49,7 +49,7 @@ nu = 0.5; % viscosity (m2/s)
 hmin = 0.2; % Minimal water depth for computation (we stop the computation when h<hmin)
 
 % visualizations
-xlims = [4200, 5200];
+xlims = [4000, 5200];
 sz = 50; % scatter point size (default 36)
 lw = 0.75; % plot line width (default 0.5)
 

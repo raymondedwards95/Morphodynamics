@@ -30,7 +30,7 @@ nu = 0.5; % viscosity (m^2/s)
 hmin = 0.2; % Minimal water depth for computation (we stop the computation when h<hmin)
 
 % visualizations
-xlims = [4200, 5200];
+xlims = [4000, 5200];
 sz = 50; % scatter point size (default 36)
 lw = 0.75; % plot line width (default 0.5)
 
@@ -126,7 +126,7 @@ for i = 1:n_t
     plot(xb, zb, 'k', 'LineWidth', lw)
 
     title('Bed profile')
-    legend('Sea level', 'Wave measurement sensors', 'Current measurement sensors', 'Location', 'SouthEast')
+    legend('Sea level', 'Wave measurement sensors', 'Current measurement sensors', 'Location', 'NorthWest')
     xlim(xlims)
     ylim([-8, 2])
     xlabel('x [m]')
