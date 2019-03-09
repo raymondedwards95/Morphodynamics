@@ -46,7 +46,7 @@ t_ = t/T;
 for j = 1:3 % loop over groups
     figure
     box on
-    grid on 
+    grid on
     hold on
     for i = 1:3 % loop over cases
         plot(t_, u_(:,j,i))
@@ -61,8 +61,4 @@ for j = 1:3 % loop over groups
 
     % save figure
     print(['figures/63_theory_velocity_', num2str(j)], '-dpng', '-r300')
-    print(['figures/63_theory_velocity_', num2str(j)], '-depsc', '-r300')
-
 end
-
-

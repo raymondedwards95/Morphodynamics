@@ -95,9 +95,7 @@ legend('Fit', 'Low tide', 'Mid tide', 'High tide')
 
 % save fig
 print('figures/61_theory_fit', '-dpng', '-r300')
-print('figures/61_theory_fit', '-depsc', '-r300')
 
 
 %% SAVE DATA
 save('data/61_WaveShapesEg', 'Sk_eg', 'As_eg', 'Ur_eg')
-

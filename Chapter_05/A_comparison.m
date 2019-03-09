@@ -126,7 +126,7 @@ for i = 1:n_t
     plot(xb, zb, 'k', 'LineWidth', lw)
 
     title('Bed profile')
-    legend('Sea level', 'Wave measurement sensors', 'Current measurement sensors', 'Location', 'NorthWest')
+    legend('Sea level', 'Wave sensors', 'Current sensors', 'Location', 'NorthWest')
     xlim(xlims)
     ylim([-8, 2])
     xlabel('x [m]')

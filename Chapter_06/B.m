@@ -122,10 +122,9 @@ for i = 1:n_t
     ylim([-8, 2])
     xlabel('x [m]')
     ylabel('z [m]')
-    
+
     % save fig
     print(['figures/62_model', num2str(i)], '-dpng', '-r300')
-    print(['figures/62_model', num2str(i)], '-depsc', '-r300')
 end
 
 

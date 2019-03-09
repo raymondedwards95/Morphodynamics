@@ -125,7 +125,6 @@ ylabel('z [m]')
 
 % save figure
 print('figures/63_evolution_velocity', '-dpng', '-r300')
-print('figures/63_evolution_velocity', '-depsc', '-r300')
 
 
 %% VISUALIZATION 2
@@ -149,4 +148,3 @@ ylabel('u [m/s]')
 
 % save figure
 print('figures/63_compare_velocity', '-dpng', '-r300')
-print('figures/63_compare_velocity', '-depsc', '-r300')
