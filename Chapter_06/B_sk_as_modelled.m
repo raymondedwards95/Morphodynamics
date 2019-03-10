@@ -122,19 +122,7 @@ for i = 1:n_t
     ylim([-10, 2])
     xlabel('x [m]')
     ylabel('z [m]')
-    
+
     % save fig
     print(['figures/62_model', num2str(i)], '-dpng', '-r300')
 end
-
-
-%% ADDITIONAL FIGURE
-% figure
-% subplot(4,1,1)
-% box on
-% grid on
-% hold on
-% for i = 1:n_t
-%     plot(xb, Ur(:,i))
-%     scatter(xp16, Ur_eg(:,i), '+')
-% end
