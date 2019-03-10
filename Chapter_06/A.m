@@ -60,7 +60,7 @@ end
 
 
 %% FIGURES
-figure
+figure('Name', '61 Skewness and Asymmetry fit')
 
 % skewness
 subplot(2,1,1)
@@ -99,3 +99,4 @@ print('figures/61_theory_fit', '-dpng', '-r300')
 
 %% SAVE DATA
 save('data/61_WaveShapesEg', 'Sk_eg', 'As_eg', 'Ur_eg')
+

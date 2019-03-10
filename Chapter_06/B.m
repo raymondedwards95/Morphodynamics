@@ -76,7 +76,7 @@ As_err(n_t+1) = rms_error(As_model(:), As_eg(:));
 
 %% FIGURE
 for i = 1:n_t
-    figure
+    figure('Name', '62 Skewness and Asymmetry Egmond')
     sgtitle(tides(i))
 
     % skewness
@@ -119,10 +119,10 @@ for i = 1:n_t
     title('Bed profile')
     legend('Sea level', 'Sensors', 'Location', 'SouthEast')
     xlim(xlims)
-    ylim([-8, 2])
+    ylim([-10, 2])
     xlabel('x [m]')
     ylabel('z [m]')
-
+    
     % save fig
     print(['figures/62_model', num2str(i)], '-dpng', '-r300')
 end

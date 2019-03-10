@@ -44,9 +44,9 @@ t_ = t/T;
 
 %% VISUALIZATIONS
 for j = 1:3 % loop over groups
-    figure
+    figure('Name', ['63 Orbital velocity theory ', num2str(j)])
     box on
-    grid on
+    grid on 
     hold on
     for i = 1:3 % loop over cases
         plot(t_, u_(:,j,i))

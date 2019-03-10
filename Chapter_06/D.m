@@ -88,7 +88,7 @@ clear Sk_x As_x r_x phi_x Uw_x
 
 %% VISUALIZATION 1
 % cross-shore evolution of velocity amplitude
-figure
+figure('Name', '63 Cross-shore evolution of velocity amplitude')
 
 % velocity amplitude
 subplot(2,1,1)
@@ -104,6 +104,7 @@ title('Orbital velocity amplitude')
 xlim(xlims)
 ylim([0, 1.1])
 ylabel('U_w [m/s]')
+set(gca, 'xticklabel', []) % remove xticklabels
 
 % bed profile
 subplot(2,1,2)
@@ -119,7 +120,7 @@ plot(xb, zb, 'k')
 title('Bed profile')
 % legend(['Sea level', labels], 'Location', 'SouthEast')
 xlim(xlims)
-ylim([-8, 2])
+ylim([-10, 2])
 xlabel('x [m]')
 ylabel('z [m]')
 
@@ -129,7 +130,7 @@ print('figures/63_evolution_velocity', '-dpng', '-r300')
 
 %% VISUALIZATION 2
 % horizontal orbital velocity at specific points
-figure
+figure('Name', '63 Horizontal orbital velocities')
 box on
 grid on
 hold on
