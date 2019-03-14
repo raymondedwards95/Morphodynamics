@@ -240,6 +240,9 @@ for i = 1:n_c % loop over all conditions
     xlim([min(t(:,i)), max(t(:,i))])  
     xlabel('t [s]')
     ylabel('c [kg/m^3]')  
+
+    % save figure
+    print(['figures/72_velocity_concentration_', num2str(i)], '-dpng')
 end
 
 
