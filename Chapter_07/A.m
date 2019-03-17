@@ -68,6 +68,7 @@ c_high = eta;
 c_mean = u_mean;
 c_mean_sum = u_mean_sum;
 c_diff = u_mean;
+corr_uc = zeros(3, n_c);
 
 q = u_mean;
 q_low = u_mean;
@@ -138,6 +139,10 @@ parfor i = 1:n_c % loop over all conditions
     c_mean(i) = mean(c(:,i));
     c_mean_sum(:,i) = c_mean(i) + c_high(:,i) + c_low(:,i);
     c_diff(i) = rms_error(c_mean_sum(:,i), c(:,i));
+    corr_1 = corrcoef(c(:,i), u(:,i));
+    corr_2 = corrcoef(c(:,i), u_low(:,i));
+    corr_3 = corrcoef(c(:,i), u_high(:,i));
+    corr_uc(:,i) = [corr_1(1,2), corr_2(1,2), corr_3(1,2)];
 
     % transport
     q(i) = mean(u(:,i) .* c(:,i)); % = mean(u c)
