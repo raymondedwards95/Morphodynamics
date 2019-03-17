@@ -158,26 +158,42 @@ end
 figure('Name', '71 Spectrum')
 for i = 1:n_c % loop over all conditions
     subplot(n_c,1,i)
+    % yyaxis left
+    hold on
     box on
     grid on
     plot(f(:,i), S(:,i))
 
+    % yyaxis right
+    % semilogy(f(:,i), S(:,i))
+
     title(['Condition ', num2str(i)])
     xlabel('f [Hz]')
     ylabel('S [m^2/Hz]')
-    xlim([0, 0.6])
+    xlim([0, 0.5])
+    ylim([0, 1.05*max(S(:,i))])
+    if max(S(:,i)) < 0.5
+        yticks(0:0.1:max(S(:,i)))
+    elseif max(S(:,i)) < 1.5
+        yticks(0:0.2:max(S(:,i)))
+    elseif max(S(:,i)) < 5
+        yticks(0:1:max(S(:,i)))
+    elseif max(S(:,i)) < 10
+        yticks(0:2:max(S(:,i)))
+    end
 end
 
 % save figure
 print('figures/71_spectrum', '-dpng')
 
-%% VISUALIZATION velocity
+
+%% VISUALIZATION velocity decomposition
 figure('Name', '71 Velocity decomposition check')
+hold on
 box on
 grid on
-hold on
 for i = 1:n_c
-    plot(t(:,i), (u_mean_sum(:,i) - u(:,i)) ./ max(u(:,i)))
+    plot(t(:,i), (u_sum(:,i) - u(:,i)) ./ max(u(:,i)))
 end
 plot([min(t(:,i)), max(t(:,i))], [0, 0], '--k') % horizontal line at y=0
 
@@ -190,15 +206,16 @@ legend(titles)
 % save figure
 print('figures/71_differences', '-dpng')
 
+
 %% VISUALIZATION velocity: high freq vs low freq
 figure('Name', '71 Velocity: low vs high frequency')
 sgtitle('Cross-shore velocity')
 
 for i = 1:n_c % loop over conditions
     subplot(n_c,1,i)
+    hold on
     box on
     grid on
-    hold on
     plot(t(:,i), u_high(:,i))
     plot(t(:,i), u_low(:,i))
     plot([min(t(:,i)), max(t(:,i))], [0, 0], '--k') % horizontal line at y=0
@@ -214,6 +231,7 @@ legend('u_{hf}', 'u_{lf}')
 % save figure
 print('figures/71_decompose_velocity', '-dpng')
 
+
 %% VISUALIZATION sediment
 for i = 1:n_c % loop over all conditions
     figure('Name', ['72 Preliminary analysis ', num2str(i)])
@@ -221,13 +239,14 @@ for i = 1:n_c % loop over all conditions
 
     % velocity
     subplot(2,1,1)
+    hold on
     box on
     grid on
     hold on
     plot(t(:,i), u(:,i)-u_mean(i))
     plot(t(:,i), u_low(:,i))
     plot([min(t(:,i)), max(t(:,i))], [0, 0], '--k') % horizontal line at y=0
-    
+
     title('Cross-shore velocity')
     legend('u - u_{mean}', 'u_{lf}')
     xlim([min(t(:,i)), max(t(:,i))])
@@ -236,15 +255,15 @@ for i = 1:n_c % loop over all conditions
 
     % concentration
     subplot(2,1,2)
+    hold on
     box on
     grid on
-    hold on
     plot(t(:,i), c(:,i))
 
     title('Concentration')
-    xlim([min(t(:,i)), max(t(:,i))])  
+    xlim([min(t(:,i)), max(t(:,i))])
     xlabel('t [s]')
-    ylabel('c [kg/m^3]')  
+    ylabel('c [kg/m^3]')
 
     % save figure
     print(['figures/72_velocity_concentration_', num2str(i)], '-dpng')
@@ -253,6 +272,7 @@ end
 
 %% VISUALIZATION sediment
 figure('Name', '72 Transport values')
+hold on
 box on
 grid on
 hold on
