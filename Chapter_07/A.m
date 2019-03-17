@@ -55,18 +55,20 @@ As = Sk;
 As_low = Sk;
 As_high = Sk;
 
-u = eta;
-u_low = eta;
-u_high = eta;
-u_mean = Sk; 
-u_mean_sum = eta;
+u = zeros(n_s, n_c);
+u_low = u;
+u_high = u;
+u_sum = u;
+u_mean = zeros(1, n_c);
+u_error = u_mean;
 u_diff = u_mean;
 
-c = eta;
-c_low = eta;
-c_high = eta;
+c = u;
+c_low = u;
+c_high = u;
+c_sum = u_sum;
 c_mean = u_mean;
-c_mean_sum = u_mean_sum;
+c_error = u_mean;
 c_diff = u_mean;
 corr_uc = zeros(3, n_c);
 
@@ -74,12 +76,13 @@ q = u_mean;
 q_low = u_mean;
 q_high = u_mean;
 q_mean = u_mean;
-q_mean_sum = u_mean;
+q_sum = u_mean;
+q_error = u_mean;
 q_diff = u_mean;
 
 
 %% RESHAPE and FILTER DATA
-parfor i = 1:n_c % loop over all conditions
+for i = 1:n_c % loop over all conditions
     % save all data in separate variables
     % time-series
     eta(:,i) = conditions(i).data(:,1); % sea-surface elevation
@@ -110,7 +113,7 @@ clear conditions
 
 
 %% COMPUTATIONS
-parfor i = 1:n_c % loop over all conditions
+for i = 1:n_c % loop over all conditions
     % spectrum
     [S(:,i), f(:,i), ~, ~] = VarianceDensitySpectrum(eta(:,i), nfft, f_s(1,i));
 
@@ -132,13 +135,15 @@ parfor i = 1:n_c % loop over all conditions
 
     % velocity
     u_mean(i) = mean(u(:,i));
-    u_mean_sum(:,i) = u_mean(i) + u_high(:,i) + u_low(:,i);
-    u_diff(i) = rms_error(u_mean_sum(:,i), u(:,i));
+    u_sum(:,i) = u_mean(i) + u_high(:,i) + u_low(:,i);
+    u_error(i) = rms_error(u_sum(:,i), u(:,i));
+    u_diff(i) = mean(abs(u_sum(:,i) - u(:,i)));
 
     % concentration
     c_mean(i) = mean(c(:,i));
-    c_mean_sum(:,i) = c_mean(i) + c_high(:,i) + c_low(:,i);
-    c_diff(i) = rms_error(c_mean_sum(:,i), c(:,i));
+    c_sum(:,i) = c_mean(i) + c_high(:,i) + c_low(:,i);
+    c_error(i) = rms_error(c_sum(:,i), c(:,i));
+    c_diff(i) = mean(abs(c_sum(:,i) - c(:,i)));
     corr_1 = corrcoef(c(:,i), u(:,i));
     corr_2 = corrcoef(c(:,i), u_low(:,i));
     corr_3 = corrcoef(c(:,i), u_high(:,i));
@@ -149,9 +154,11 @@ parfor i = 1:n_c % loop over all conditions
     q_mean(i) = u_mean(i) * c_mean(i); % = mean(u) mean(c)
     q_high(i) = mean(u_high(:,i) .* c_high(:,i)); % mean(u_h c_h)
     q_low(i) = mean(u_low(:,i) .* c_low(:,i)); % mean(u_l c_l)
-    q_mean_sum(i) = q_mean(i) + q_high(i) + q_low(i);
-    q_diff(i) = rms_error(q_mean_sum(i), q(i));
+    q_sum(i) = q_mean(i) + q_high(i) + q_low(i);
+    q_error(i) = rms_error(q_sum(i), q(i));
+    q_diff(i) = mean(abs(q_sum(i) - q(i)));
 end
+clear corr_1 corr_2 corr_3
 
 
 %% VISUALIZATION spectrum
@@ -242,7 +249,6 @@ for i = 1:n_c % loop over all conditions
     hold on
     box on
     grid on
-    hold on
     plot(t(:,i), u(:,i)-u_mean(i))
     plot(t(:,i), u_low(:,i))
     plot([min(t(:,i)), max(t(:,i))], [0, 0], '--k') % horizontal line at y=0
@@ -275,12 +281,11 @@ figure('Name', '72 Transport values')
 hold on
 box on
 grid on
-hold on
-bar(categorical(titles), transpose([q; q_mean; q_low; q_high]), 'grouped')
+bar(categorical(titles), transpose([q; q_mean; q_low; q_high; q_sum]), 'grouped')
 
 title('Sediment transport')
 ylabel('q [kg/m^2/s]')
-legend('Total', 'Mean', 'Low frequency', 'High frequency')
+legend('Total', 'Mean', 'Low frequency', 'High frequency', 'Sum')
 
 % save figure
 print('figures/72_transport', '-dpng')
