@@ -18,21 +18,25 @@ phi = [0, 0, -pi/2, -pi/4]; % phase
 assert(length(r) == length(phi));
 n_c = length(r); % number of combinations of r and phi
 n_s = 1000; % number of elements from waveshape
+
+% pre-allocation
 u = zeros(n_s, n_c);
 a = u;
 t = u;
 R = zeros(1, n_c);
-Beta = R;
+beta = R;
 
 
 %% CALCULATIONS
 for i = 1:n_c % loop over all combinations
     % horizontal orbital velocity
     [u(:,i), t(:,i)] = waveshape(r(i), phi(i), Uw, T);
+
     % horizontal orbital acceleration
     a(:,i) = acceleration(u(:,i), t(:,i));
+
     % velocity and acceleration skewness
-    [R(i), Beta(i)] = vsk_ask(u(:,i), t(:,i));
+    [R(i), beta(i)] = vsk_ask(u(:,i), t(:,i));
 end
 
 
@@ -42,7 +46,7 @@ for i = 1:n_c
 
     figure('Name', ['81 Velocity ', num2str(i)])
     % sgtitle({['r = ', num2str(r(i)), '; \phi = ', num2str(phi(i))], ...
-    %          ['R = ', num2str(R(i)), '; \beta = ', num2str(Beta(i))]})
+    %          ['R = ', num2str(R(i)), '; \beta = ', num2str(beta(i))]})
     sgtitle(['r = ', num2str(r(i)), '; \phi = ', num2str(phi(i))])
 
     subplot(2,1,1)
