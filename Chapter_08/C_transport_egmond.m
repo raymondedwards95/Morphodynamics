@@ -17,10 +17,11 @@ rho_w = 1000; % water density [kg/m3]
 % tides
 n_t = 3;
 tides = {'Low tide', 'Mid tide', 'High tide'};
-i_t = 2; % tide to calculate
+i_t = 2; % tide to use
 
 % model
-hmin = 0.2; % Minimal water depth for computation (we stop the computation when h<hmin)
+% Minimal water depth for computation (we stop the computation when h<hmin)
+hmin = 0.2;
 
 % visualizations
 xlims = [4200, 5200];
@@ -32,7 +33,10 @@ ylims_e = [-8, 2]; % zb
 
 
 %% LOAD DATA
-load('data/52_ParametersEgmond.mat', 'H13', 'T13', 'Zeta', 'theta'); % load H13, T13, Zeta, theta
+% load H13, T13, Zeta, theta
+load('data/52_ParametersEgmond.mat', 'H13', 'T13', 'Zeta', 'theta');
+
+% only use one tide:
 H13 = H13(i_t);
 T13 = T13(i_t);
 Zeta = Zeta(i_t);
@@ -58,11 +62,11 @@ end
 
 
 % pre-allocation
-Qsx = NaN*ones(n_x, n_c);
+Qsx = NaN*ones(n_x, n_c); % save data for all points for all cases
 Qsy = Qsx;  Rh = Qsx;
 Occ = Qsx;  Oct = Qsx;      Otc = Qsx;  Ott = Qsx;
 Uw = Qsx;   Ur = Qsx;       Sk = Qsx;   As = Qsx;
-r = Qsx;    phi = Qsx;      R = Qsx;    Beta = Qsx;
+r = Qsx;    phi = Qsx;      R = Qsx;    beta = Qsx;
 Urms = Qsx; dQsx_dx = Qsx;  dz = Qsx;   Ux = Qsx;
 
 
@@ -105,7 +109,10 @@ for i = 1:n_c % loop over all different cases
     % set undertow for 8.2.2 and 8.2.3
     if (2 <= i) && (i <= 4)
         disp('  Undertow: yes')
-        Ux(:,i) = 100 * undertow_magnitude(wavedata.E, wavedata.Er, wavedata.c, wavedata.ht, rho_w, wavedata.Hrms); % multiply by 100 to get cm/s
+        % multiply by 100 to get cm/s
+        Ux(:,i) = 100 * undertow_magnitude(wavedata.E, wavedata.Er, ...
+                                           wavedata.c, wavedata.ht, ...
+                                           rho_w, wavedata.Hrms);
     else
         disp('  Undertow: no')
         Ux(:,i) = zeros(n_x, 1);
@@ -121,10 +128,12 @@ for i = 1:n_c % loop over all different cases
         [phi(j,i)] = computation_phi(Sk(j,i), As(j,i));
         [u, t] = waveshape(r(j,i), phi(j,i), Uw(j,i), T0);
         [Urms(j,i)] = 100 * rms(u); % multiply by 100 to get cm/s
-        [R(j,i), Beta(j,i)] = vsk_ask(u, t);
+        [R(j,i), beta(j,i)] = vsk_ask(u, t);
 
         % sediment transport
-        [Qsx(j,i), Qsy(j,i), Occ(j,i), Oct(j,i), Ott(j,i), Otc(j,i), Rh(j,i)] = SANTOSSmodel(D50, D90, rho_s, T0, Urms(j,i), R(j,i), Beta(j,i), ripples, Ux(j,i));
+        [Qsx(j,i), Qsy(j,i), Occ(j,i), Oct(j,i), Ott(j,i), Otc(j,i), Rh(j,i)] = ...
+            SANTOSSmodel(D50, D90, rho_s, T0, Urms(j,i), R(j,i), ...
+                         beta(j,i), ripples, Ux(j,i));
     end
 
     % sediment transport gradient
